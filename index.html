@@ -33,8 +33,9 @@
   .nav-resume:hover { background: var(--orange); color: var(--dark) !important; }
 
   #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 0 4rem; position: relative; overflow: hidden; }
-  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(249,115,22,0.07) 0%, transparent 70%); }
-  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(249,115,22,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.04) 1px, transparent 1px); background-size: 60px 60px; }
+  /* pointer-events: none so overlays don't block the card */
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(249,115,22,0.07) 0%, transparent 70%); pointer-events: none; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(249,115,22,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.04) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
   .hero-left { position: relative; z-index: 2; }
   .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); border: 1px solid rgba(249,115,22,0.3); padding: 0.4rem 1rem; margin-bottom: 2rem; animation: fadeSlide 0.6s ease both; }
   .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
@@ -44,23 +45,46 @@
   .hero-role { font-family: 'Caveat', cursive; font-size: 2rem; color: var(--orange-light); margin-bottom: 1.5rem; animation: fadeSlide 0.7s 0.2s ease both; }
   .hero-desc { font-size: 0.82rem; line-height: 1.8; color: var(--gray); max-width: 480px; margin-bottom: 2.5rem; animation: fadeSlide 0.7s 0.3s ease both; }
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeSlide 0.7s 0.4s ease both; }
-  .btn-primary { padding: 0.9rem 2rem; background: var(--orange); color: var(--dark); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;  transition: background 0.2s, transform 0.2s; display: inline-block; }
+  .btn-primary { padding: 0.9rem 2rem; background: var(--orange); color: var(--dark); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
   .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
   .btn-outline { padding: 0.9rem 2rem; background: transparent; color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(255,255,255,0.15); transition: border-color 0.2s, color 0.2s; display: inline-block; }
   .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
-  .btn-download { padding: 0.9rem 2rem; background: transparent; color: var(--orange); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--orange);  transition: background 0.2s, color 0.2s, transform 0.2s; display: inline-block; }
+  .btn-download { padding: 0.9rem 2rem; background: transparent; color: var(--orange); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--orange); transition: background 0.2s, color 0.2s, transform 0.2s; display: inline-block; }
   .btn-download:hover { background: var(--orange); color: var(--dark); transform: translateY(-2px); }
 
   .hero-right { position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; }
-  .hero-card { background: var(--dark2); border: 1px solid rgba(249,115,22,0.15); padding: 2.5rem; width: 340px; animation: fadeSlide 0.8s 0.2s ease both; backdrop-filter: none; }
+
+  /* ===== FIX 1: Solid opaque background — no more see-through ===== */
+  .hero-card {
+    background: #1A1B18;
+    border: 1px solid rgba(249,115,22,0.25);
+    padding: 2.5rem;
+    width: 340px;
+    animation: fadeSlide 0.8s 0.2s ease both;
+    position: relative;
+    z-index: 3;
+    /* isolation: isolate prevents parent gradients from bleeding in */
+    isolation: isolate;
+  }
+
   .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .stat-num { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--orange); line-height: 1; }
   .stat-label { font-size: 0.68rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem; }
   .stat-divider { height: 1px; background: rgba(249,115,22,0.1); margin: 1.5rem 0; }
   .contact-row { display: flex; flex-direction: column; gap: 0.7rem; }
-  .contact-item { display: flex; align-items: center; gap: 0.7rem; font-size: 0.7rem; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+
+  /* ===== FIX 2: contact-item style applies to <a> tags too ===== */
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.7rem;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
   .contact-item:hover { color: var(--orange); }
-  .contact-icon { color: var(--orange); }
+  .contact-icon { color: var(--orange); flex-shrink: 0; }
 
   @keyframes fadeSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -70,7 +94,6 @@
   .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 800; letter-spacing: -0.02em; }
   .section-line { flex: 1; height: 1px; background: linear-gradient(to right, rgba(249,115,22,0.3), transparent); }
 
-  /* EXPERIENCE */
   #experience { background: var(--dark2); }
   .exp-timeline { display: flex; flex-direction: column; position: relative; padding-left: 2rem; }
   .exp-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--orange), rgba(249,115,22,0.1)); }
@@ -89,7 +112,6 @@
   .impact-metric { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--orange); line-height: 1; margin-bottom: 0.4rem; }
   .impact-desc { font-size: 0.71rem; color: var(--gray); line-height: 1.65; }
 
-  /* SKILLS */
   #skills { background: var(--dark); }
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 1.5rem; }
   .skill-group { background: var(--dark2); border: 1px solid rgba(249,115,22,0.1); padding: 2rem; transition: border-color 0.3s, transform 0.3s; }
@@ -101,39 +123,26 @@
   .skill-tag { font-size: 0.68rem; padding: 0.3rem 0.7rem; background: var(--dark3); color: var(--white); border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s; }
   .skill-tag:hover { background: var(--orange-dim); color: var(--orange); border-color: var(--orange); }
 
-  /* PROJECTS TINDER */
   #projects { background: var(--dark2); }
   .swipe-hint-text { font-size: 0.72rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; text-align: center; margin-bottom: 2rem; }
   .swipe-arena { display: flex; flex-direction: column; align-items: center; }
   .swipe-stack { position: relative; width: 500px; height: 430px; }
-  .proj-card {
-    position: absolute; inset: 0;
-    background: var(--dark3);
-    border: 1px solid rgba(249,115,22,0.15);
-    padding: 2.5rem;
-    display: flex; flex-direction: column;
-    user-select: none;
-    will-change: transform;
-    cursor: grab;
-  }
+  .proj-card { position: absolute; inset: 0; background: var(--dark3); border: 1px solid rgba(249,115,22,0.15); padding: 2.5rem; display: flex; flex-direction: column; user-select: none; will-change: transform; cursor: grab; }
   .proj-card:active { cursor: grabbing; }
   .proj-card.gone { display: none; }
   .proj-card.anim-left { animation: swipeLeft 0.4s ease forwards; }
   .proj-card.anim-right { animation: swipeRight 0.4s ease forwards; }
   @keyframes swipeLeft { to { transform: translateX(-160%) rotate(-22deg); opacity: 0; } }
   @keyframes swipeRight { to { transform: translateX(160%) rotate(22deg); opacity: 0; } }
-
   .proj-card:nth-child(2) { transform: rotate(2deg) translateY(8px) scale(0.97); }
   .proj-card:nth-child(3) { transform: rotate(-1.5deg) translateY(16px) scale(0.94); }
   .proj-card:nth-child(4) { transform: rotate(1deg) translateY(24px) scale(0.91); }
-
   .proj-overlay { position: absolute; inset: 0; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
   .proj-overlay.like { background: linear-gradient(135deg, rgba(249,115,22,0.18), transparent 60%); }
   .proj-overlay.nope { background: linear-gradient(225deg, rgba(120,120,120,0.18), transparent 60%); }
   .proj-stamp { position: absolute; top: 1.8rem; padding: 0.35rem 0.9rem; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.15em; border: 2.5px solid; opacity: 0; transition: opacity 0.1s; pointer-events: none; }
   .proj-stamp.like { right: 1.8rem; color: var(--orange); border-color: var(--orange); transform: rotate(12deg); }
   .proj-stamp.nope { left: 1.8rem; color: #777; border-color: #777; transform: rotate(-12deg); }
-
   .proj-num { font-size: 0.62rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 0.8rem; }
   .proj-icon-big { font-size: 2.2rem; margin-bottom: 0.8rem; line-height: 1; }
   .proj-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; margin-bottom: 0.7rem; }
@@ -141,9 +150,8 @@
   .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
   .proj-tag { font-size: 0.6rem; padding: 0.2rem 0.6rem; background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(249,115,22,0.2); }
   .proj-metric { margin-top: 0.8rem; font-size: 0.66rem; color: var(--orange); padding-top: 0.8rem; border-top: 1px solid rgba(249,115,22,0.1); }
-
   .swipe-controls { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
-  .swipe-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;  background: transparent; transition: all 0.2s; font-family: sans-serif; }
+  .swipe-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: transparent; transition: all 0.2s; font-family: sans-serif; }
   .swipe-btn.skip { border-color: #555; color: #555; }
   .swipe-btn.skip:hover { border-color: #888; color: #888; background: rgba(99,99,99,0.12); }
   .swipe-btn.heart { border-color: var(--orange); color: var(--orange); }
@@ -151,16 +159,14 @@
   .swipe-hint-small { font-size: 0.62rem; color: var(--gray); letter-spacing: 0.12em; text-transform: uppercase; }
   .swipe-counter { text-align: center; margin-top: 1rem; font-size: 0.7rem; color: var(--gray); }
   .swipe-counter b { color: var(--orange); font-family: 'Syne', sans-serif; }
-
   .all-done { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; width: 500px; height: 430px; }
   .all-done.show { display: flex; }
   .all-done-icon { font-size: 2.8rem; }
   .all-done-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
   .all-done-sub { font-size: 0.74rem; color: var(--gray); }
-  .all-done-restart { margin-top: 0.5rem; padding: 0.65rem 1.6rem; border: 1px solid var(--orange); color: var(--orange); background: transparent; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;  transition: all 0.2s; }
+  .all-done-restart { margin-top: 0.5rem; padding: 0.65rem 1.6rem; border: 1px solid var(--orange); color: var(--orange); background: transparent; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s; }
   .all-done-restart:hover { background: var(--orange); color: var(--dark); }
 
-  /* EDUCATION */
   #education { background: var(--dark); }
   .edu-layout { display: grid; grid-template-columns: 1fr auto; gap: 2rem; max-width: 760px; align-items: stretch; }
   .edu-main { background: var(--dark2); border: 1px solid rgba(249,115,22,0.15); padding: 2.5rem; }
@@ -172,7 +178,6 @@
   .edu-score-n { font-family: 'Syne', sans-serif; font-size: 3.2rem; font-weight: 800; color: var(--orange); line-height: 1; }
   .edu-score-l { font-size: 0.6rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.3rem; }
 
-  /* ACHIEVEMENTS */
   #achievements { background: var(--dark2); }
   .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .ach-card { background: var(--dark3); border: 1px solid rgba(249,115,22,0.1); padding: 2rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: border-color 0.3s, transform 0.3s; }
@@ -184,7 +189,6 @@
   footer { background: var(--dark3); border-top: 1px solid rgba(249,115,22,0.1); padding: 3rem 4rem; display: flex; justify-content: space-between; align-items: center; }
   .footer-name { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--orange); }
   .footer-copy { font-size: 0.68rem; color: var(--gray); }
-
   .reveal { opacity: 1; transform: none; }
 
   @media (max-width: 860px) {
@@ -204,10 +208,8 @@
   function navScrollTo(id) {
     var el = document.getElementById(id);
     if (!el) return;
-    var top = el.getBoundingClientRect().top + window.pageYOffset - 72;
-    window.scrollTo({ top: top, behavior: 'smooth' });
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 72, behavior: 'smooth' });
   }
-
   function triggerSwipe(dir) {
     var cards = Array.from(document.querySelectorAll('.proj-card:not(.gone)'));
     var card = cards[cards.length - 1];
@@ -222,25 +224,19 @@
         document.getElementById('swipeCounter').style.display = 'none';
         document.getElementById('allDone').classList.add('show');
       }
-      var left = document.querySelectorAll('.proj-card:not(.gone)').length;
       var el = document.getElementById('cCur');
-      if (el) el.textContent = Math.min(4 - left + 1, 4);
+      if (el) el.textContent = Math.min(4 - remaining + 1, 4);
     }, { once: true });
   }
-
   function resetCards() {
-    document.querySelectorAll('.proj-card').forEach(function(c) {
-      c.classList.remove('gone','anim-left','anim-right');
-    });
+    document.querySelectorAll('.proj-card').forEach(function(c) { c.classList.remove('gone','anim-left','anim-right'); });
     document.getElementById('swipeStack').style.display = '';
     document.getElementById('swipeControls').style.display = '';
     document.getElementById('swipeCounter').style.display = '';
     document.getElementById('allDone').classList.remove('show');
     document.getElementById('cCur').textContent = '1';
   }
-
   document.addEventListener('DOMContentLoaded', function() {
-    /* Cursor */
     var cur = document.getElementById('cursor');
     var ring = document.getElementById('cursorRing');
     document.addEventListener('mousemove', function(e) {
@@ -251,46 +247,28 @@
       cur.style.left = '-100px'; cur.style.top = '-100px';
       ring.style.left = '-100px'; ring.style.top = '-100px';
     });
-
-    /* Scroll progress */
     window.addEventListener('scroll', function() {
       var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
       document.getElementById('scrollLine').style.width = pct + '%';
     });
-
-    /* Drag to swipe */
     var sx = 0, dragging = false, dcard = null;
     var stack = document.getElementById('swipeStack');
-
     function getTopCard() {
       var cards = Array.from(document.querySelectorAll('.proj-card:not(.gone)'));
       return cards[cards.length - 1] || null;
     }
-
     stack.addEventListener('mousedown', function(e) {
       dcard = getTopCard(); if (!dcard) return;
-      dragging = true; sx = e.clientX;
-      dcard.style.transition = 'none';
+      dragging = true; sx = e.clientX; dcard.style.transition = 'none';
     });
     document.addEventListener('mousemove', function(e) {
       if (!dragging || !dcard) return;
       var dx = e.clientX - sx;
       dcard.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx * 0.07) + 'deg)';
-      var likeO = dcard.querySelector('.proj-overlay.like');
-      var nopeO = dcard.querySelector('.proj-overlay.nope');
-      var likeS = dcard.querySelector('.proj-stamp.like');
-      var nopeS = dcard.querySelector('.proj-stamp.nope');
-      if (dx > 0) {
-        likeO.style.opacity = Math.min(dx / 90, 0.9);
-        nopeO.style.opacity = 0;
-        likeS.style.opacity = Math.min(dx / 70, 1);
-        nopeS.style.opacity = 0;
-      } else {
-        nopeO.style.opacity = Math.min(Math.abs(dx) / 90, 0.9);
-        likeO.style.opacity = 0;
-        nopeS.style.opacity = Math.min(Math.abs(dx) / 70, 1);
-        likeS.style.opacity = 0;
-      }
+      var likeO = dcard.querySelector('.proj-overlay.like'), nopeO = dcard.querySelector('.proj-overlay.nope');
+      var likeS = dcard.querySelector('.proj-stamp.like'), nopeS = dcard.querySelector('.proj-stamp.nope');
+      if (dx > 0) { likeO.style.opacity = Math.min(dx/90,0.9); nopeO.style.opacity=0; likeS.style.opacity=Math.min(dx/70,1); nopeS.style.opacity=0; }
+      else { nopeO.style.opacity=Math.min(Math.abs(dx)/90,0.9); likeO.style.opacity=0; nopeS.style.opacity=Math.min(Math.abs(dx)/70,1); likeS.style.opacity=0; }
     });
     document.addEventListener('mouseup', function(e) {
       if (!dragging || !dcard) return;
@@ -302,12 +280,9 @@
       else dcard.style.transform = '';
       dcard = null;
     });
-
-    /* Touch */
     stack.addEventListener('touchstart', function(e) {
       dcard = getTopCard(); if (!dcard) return;
-      dragging = true; sx = e.touches[0].clientX;
-      dcard.style.transition = 'none';
+      dragging = true; sx = e.touches[0].clientX; dcard.style.transition = 'none';
     }, { passive: true });
     document.addEventListener('touchmove', function(e) {
       if (!dragging || !dcard) return;
@@ -343,7 +318,6 @@
   </ul>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
@@ -367,15 +341,24 @@
       </div>
       <div class="stat-divider"></div>
       <div class="contact-row">
-        <a href="mailto:praveenreddy.yallayyagari@gmail.com" class="contact-item"><span class="contact-icon">✉</span> praveenreddy.yallayyagari@gmail.com</a>
-        <a href="tel:+919398242064" class="contact-item"><span class="contact-icon">&#x260E;</span> +91-9398242064</a>
-        <span class="contact-item"><span class="contact-icon">&#x25CE;</span> India</span>
+        <!-- FIX 2: mailto: link opens Gmail/mail client on click -->
+        <a href="mailto:praveenreddy.yallayyagari@gmail.com" class="contact-item">
+          <span class="contact-icon">&#x2709;</span>
+          praveenreddy.yallayyagari@gmail.com
+        </a>
+        <a href="tel:+919398242064" class="contact-item">
+          <span class="contact-icon">&#x260E;</span>
+          +91-9398242064
+        </a>
+        <span class="contact-item">
+          <span class="contact-icon">&#x25CE;</span>
+          India
+        </span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-header">
     <div class="section-num">01</div>
@@ -391,10 +374,8 @@
       </div>
       <div class="exp-company-row">
         <span class="exp-company-name">Aiverbalyze Technologies Pvt. Ltd</span>
-        <span class="exp-sep">&#xB7;</span>
-        <span>Mumbai (Remote)</span>
-        <span class="exp-sep">&#xB7;</span>
-        <span>Jul 2024 &#x2013; Present</span>
+        <span class="exp-sep">&#xB7;</span><span>Mumbai (Remote)</span>
+        <span class="exp-sep">&#xB7;</span><span>Jul 2024 &#x2013; Present</span>
       </div>
       <div class="exp-impacts">
         <div class="impact-card reveal"><div class="impact-metric">200K+</div><div class="impact-desc">Daily AI call events processed in real-time via Python, GCP Pub/Sub &amp; BigQuery with &lt;5s latency</div></div>
@@ -413,10 +394,8 @@
       </div>
       <div class="exp-company-row">
         <span class="exp-company-name">Aiverbalyze Technologies Pvt. Ltd</span>
-        <span class="exp-sep">&#xB7;</span>
-        <span>Mumbai</span>
-        <span class="exp-sep">&#xB7;</span>
-        <span>Apr 2024 &#x2013; Jul 2024</span>
+        <span class="exp-sep">&#xB7;</span><span>Mumbai</span>
+        <span class="exp-sep">&#xB7;</span><span>Apr 2024 &#x2013; Jul 2024</span>
       </div>
       <div class="exp-impacts">
         <div class="impact-card reveal"><div class="impact-metric">99.99%</div><div class="impact-desc">Data availability for reporting &#x2014; batch ingestion pipelines automating daily Pub/Sub to BigQuery imports</div></div>
@@ -428,7 +407,6 @@
   </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills">
   <div class="section-header">
     <div class="section-num">02</div>
@@ -442,55 +420,35 @@
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-header"><span class="skill-group-icon">&#x2699;</span><div class="skill-group-title">Data Engineering</div></div>
-      <div class="skill-tags">
-        <span class="skill-tag">dbt</span><span class="skill-tag">Apache Airflow</span><span class="skill-tag">Apache Kafka</span>
-        <span class="skill-tag">PySpark</span><span class="skill-tag">Spark Streaming</span><span class="skill-tag">ETL / ELT Pipelines</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">dbt</span><span class="skill-tag">Apache Airflow</span><span class="skill-tag">Apache Kafka</span><span class="skill-tag">PySpark</span><span class="skill-tag">Spark Streaming</span><span class="skill-tag">ETL / ELT Pipelines</span></div>
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-header"><span class="skill-group-icon">&#x2601;</span><div class="skill-group-title">Cloud Platforms</div></div>
-      <div class="skill-tags">
-        <span class="skill-tag">GCP Pub/Sub</span><span class="skill-tag">BigQuery</span><span class="skill-tag">Cloud Composer</span>
-        <span class="skill-tag">AWS S3</span><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS Glue</span>
-        <span class="skill-tag">AWS Bedrock</span><span class="skill-tag">Step Functions</span><span class="skill-tag">API Gateway</span>
-        <span class="skill-tag">CloudWatch</span><span class="skill-tag">EC2</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">GCP Pub/Sub</span><span class="skill-tag">BigQuery</span><span class="skill-tag">Cloud Composer</span><span class="skill-tag">AWS S3</span><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS Glue</span><span class="skill-tag">AWS Bedrock</span><span class="skill-tag">Step Functions</span><span class="skill-tag">API Gateway</span><span class="skill-tag">CloudWatch</span><span class="skill-tag">EC2</span></div>
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-header"><span class="skill-group-icon">&#x25A3;</span><div class="skill-group-title">Databases</div></div>
-      <div class="skill-tags">
-        <span class="skill-tag">Amazon Redshift</span><span class="skill-tag">MongoDB</span><span class="skill-tag">DynamoDB</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">Amazon Redshift</span><span class="skill-tag">MongoDB</span><span class="skill-tag">DynamoDB</span></div>
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-header"><span class="skill-group-icon">&#x25C8;</span><div class="skill-group-title">APIs &amp; Integration</div></div>
-      <div class="skill-tags">
-        <span class="skill-tag">RESTful APIs</span><span class="skill-tag">Webhooks</span><span class="skill-tag">OAuth2</span>
-        <span class="skill-tag">boto3 SDK</span><span class="skill-tag">LangChain</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">RESTful APIs</span><span class="skill-tag">Webhooks</span><span class="skill-tag">OAuth2</span><span class="skill-tag">boto3 SDK</span><span class="skill-tag">LangChain</span></div>
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-header"><span class="skill-group-icon">&#x25CE;</span><div class="skill-group-title">DevOps &amp; Tooling</div></div>
-      <div class="skill-tags">
-        <span class="skill-tag">CI/CD Pipelines</span><span class="skill-tag">Git</span><span class="skill-tag">Linux</span><span class="skill-tag">Streamlit</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">CI/CD Pipelines</span><span class="skill-tag">Git</span><span class="skill-tag">Linux</span><span class="skill-tag">Streamlit</span></div>
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-header"><span class="skill-group-icon">&#x25A6;</span><div class="skill-group-title">Visualization &amp; BI</div></div>
-      <div class="skill-tags">
-        <span class="skill-tag">Power BI</span><span class="skill-tag">Amazon QuickSight</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">Power BI</span><span class="skill-tag">Amazon QuickSight</span></div>
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-header"><span class="skill-group-icon">&#x2726;</span><div class="skill-group-title">AI / ML</div></div>
-      <div class="skill-tags">
-        <span class="skill-tag">LangChain</span><span class="skill-tag">Mistral-7B</span><span class="skill-tag">Claude API</span><span class="skill-tag">Text-to-SQL</span>
-      </div>
+      <div class="skill-tags"><span class="skill-tag">LangChain</span><span class="skill-tag">Mistral-7B</span><span class="skill-tag">Claude API</span><span class="skill-tag">Text-to-SQL</span></div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="section-header">
     <div class="section-num">03</div>
@@ -500,7 +458,6 @@
   <p class="swipe-hint-text">Drag left / right or use buttons to explore</p>
   <div class="swipe-arena">
     <div class="swipe-stack" id="swipeStack">
-
       <div class="proj-card" data-idx="3">
         <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
         <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
@@ -511,7 +468,6 @@
         <div class="proj-tags"><span class="proj-tag">AWS Glue</span><span class="proj-tag">Redshift</span><span class="proj-tag">S3</span><span class="proj-tag">Step Functions</span></div>
         <div class="proj-metric">Near real-time analytics &#xB7; Fail-safe retries &#xB7; Notification webhooks</div>
       </div>
-
       <div class="proj-card" data-idx="2">
         <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
         <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
@@ -522,7 +478,6 @@
         <div class="proj-tags"><span class="proj-tag">AWS Lambda</span><span class="proj-tag">API Gateway</span><span class="proj-tag">Bedrock</span><span class="proj-tag">CloudWatch</span></div>
         <div class="proj-metric">99.9% uptime &#xB7; 30% cost reduction &#xB7; 10K+ weekly queries</div>
       </div>
-
       <div class="proj-card" data-idx="1">
         <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
         <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
@@ -533,7 +488,6 @@
         <div class="proj-tags"><span class="proj-tag">LangChain</span><span class="proj-tag">Mistral-7B</span><span class="proj-tag">OAuth2</span><span class="proj-tag">Python</span></div>
         <div class="proj-metric">60% better context &#xB7; 90% security improvement</div>
       </div>
-
       <div class="proj-card" data-idx="0">
         <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
         <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
@@ -544,16 +498,13 @@
         <div class="proj-tags"><span class="proj-tag">Claude API</span><span class="proj-tag">LangChain</span><span class="proj-tag">dbt</span><span class="proj-tag">Text-to-SQL</span></div>
         <div class="proj-metric">95%+ SQL accuracy &#xB7; Reports in &lt;30s &#xB7; Zero SQL needed</div>
       </div>
-
     </div>
-
     <div class="all-done" id="allDone">
       <div class="all-done-icon">&#x2728;</div>
       <div class="all-done-title">All 4 projects explored!</div>
       <div class="all-done-sub">Want to go through them again?</div>
       <button class="all-done-restart" onclick="resetCards()">Restart &#x21BA;</button>
     </div>
-
     <div class="swipe-controls" id="swipeControls">
       <button class="swipe-btn skip" onclick="triggerSwipe('left')" title="Skip">&#x2715;</button>
       <span class="swipe-hint-small">swipe or click</span>
@@ -563,7 +514,6 @@
   </div>
 </section>
 
-<!-- EDUCATION -->
 <section id="education">
   <div class="section-header">
     <div class="section-num">04</div>
@@ -584,7 +534,6 @@
   </div>
 </section>
 
-<!-- ACHIEVEMENTS -->
 <section id="achievements">
   <div class="section-header">
     <div class="section-num">05</div>
@@ -618,4 +567,3 @@
 
 </body>
 </html>
-
