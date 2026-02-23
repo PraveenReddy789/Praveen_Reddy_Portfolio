@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Praveen Reddy Yallayyagari · Data Engineer</title>
+<title>Praveen Reddy Yallayyagari &middot; Data Engineer</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -20,20 +20,20 @@
   html { scroll-behavior: smooth; scroll-padding-top: 72px; }
   body { font-family: 'DM Mono', monospace; background: var(--dark); color: var(--white); overflow-x: hidden; }
 
+  /* --- CURSOR --- */
   .cursor { width: 12px; height: 12px; background: var(--orange); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); top: -100px; left: -100px; }
   .cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--orange); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: left 0.12s ease, top 0.12s ease; opacity: 0.5; top: -100px; left: -100px; }
   .scroll-line { position: fixed; top: 0; left: 0; height: 2px; background: var(--orange); z-index: 200; transition: width 0.1s; }
 
+  /* --- NAV --- */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4rem; background: rgba(17,18,16,0.9); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(249,115,22,0.08); }
   .nav-logo { font-family: 'Caveat', cursive; font-size: 1.4rem; color: var(--orange); }
   .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
   .nav-links a { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--orange); }
-  .nav-resume { padding: 0.45rem 1.1rem; border: 1px solid var(--orange); color: var(--orange) !important; font-size: 0.68rem !important; transition: background 0.2s, color 0.2s !important; }
-  .nav-resume:hover { background: var(--orange); color: var(--dark) !important; }
 
+  /* --- HERO --- */
   #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 0 4rem; position: relative; overflow: hidden; }
-  /* pointer-events: none so overlays don't block the card */
   .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(249,115,22,0.07) 0%, transparent 70%); pointer-events: none; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(249,115,22,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.04) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
   .hero-left { position: relative; z-index: 2; }
@@ -47,53 +47,42 @@
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeSlide 0.7s 0.4s ease both; }
   .btn-primary { padding: 0.9rem 2rem; background: var(--orange); color: var(--dark); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
   .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
-  .btn-outline { padding: 0.9rem 2rem; background: transparent; color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(255,255,255,0.15); transition: border-color 0.2s, color 0.2s; display: inline-block; }
-  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
   .btn-download { padding: 0.9rem 2rem; background: transparent; color: var(--orange); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--orange); transition: background 0.2s, color 0.2s, transform 0.2s; display: inline-block; }
   .btn-download:hover { background: var(--orange); color: var(--dark); transform: translateY(-2px); }
 
+  /* --- HERO CARD (FIX: solid bg, overflow:hidden, responsive stat numbers) --- */
   .hero-right { position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; }
-
-  /* ===== FIX 1: Solid opaque background — no more see-through ===== */
   .hero-card {
     background: #1A1B18;
     border: 1px solid rgba(249,115,22,0.25);
-    padding: 2.5rem;
-    width: 340px;
-    animation: fadeSlide 0.8s 0.2s ease both;
+    padding: 2rem;
+    width: 100%;
+    max-width: 360px;
     position: relative;
     z-index: 3;
-    /* isolation: isolate prevents parent gradients from bleeding in */
     isolation: isolate;
+    overflow: hidden;
+    animation: fadeSlide 0.8s 0.2s ease both;
   }
-
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .stat-num { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--orange); line-height: 1; }
-  .stat-label { font-size: 0.68rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 800; color: var(--orange); line-height: 1; white-space: nowrap; }
+  .stat-label { font-size: 0.65rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem; }
   .stat-divider { height: 1px; background: rgba(249,115,22,0.1); margin: 1.5rem 0; }
-  .contact-row { display: flex; flex-direction: column; gap: 0.7rem; }
-
-  /* ===== FIX 2: contact-item style applies to <a> tags too ===== */
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 0.7rem;
-    color: var(--gray);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+  .contact-row { display: flex; flex-direction: column; gap: 0.8rem; }
+  .contact-item { display: flex; align-items: center; gap: 0.7rem; font-size: 0.68rem; color: var(--gray); text-decoration: none; transition: color 0.2s; word-break: break-all; }
   .contact-item:hover { color: var(--orange); }
-  .contact-icon { color: var(--orange); flex-shrink: 0; }
+  .contact-icon { color: var(--orange); flex-shrink: 0; font-style: normal; }
 
   @keyframes fadeSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* --- SECTIONS --- */
   section { padding: 7rem 4rem; }
   .section-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 4rem; }
   .section-num { font-family: 'Syne', sans-serif; font-size: 0.7rem; color: var(--orange); letter-spacing: 0.2em; }
   .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 800; letter-spacing: -0.02em; }
   .section-line { flex: 1; height: 1px; background: linear-gradient(to right, rgba(249,115,22,0.3), transparent); }
 
+  /* --- EXPERIENCE --- */
   #experience { background: var(--dark2); }
   .exp-timeline { display: flex; flex-direction: column; position: relative; padding-left: 2rem; }
   .exp-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--orange), rgba(249,115,22,0.1)); }
@@ -112,6 +101,7 @@
   .impact-metric { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--orange); line-height: 1; margin-bottom: 0.4rem; }
   .impact-desc { font-size: 0.71rem; color: var(--gray); line-height: 1.65; }
 
+  /* --- SKILLS --- */
   #skills { background: var(--dark); }
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 1.5rem; }
   .skill-group { background: var(--dark2); border: 1px solid rgba(249,115,22,0.1); padding: 2rem; transition: border-color 0.3s, transform 0.3s; }
@@ -123,6 +113,7 @@
   .skill-tag { font-size: 0.68rem; padding: 0.3rem 0.7rem; background: var(--dark3); color: var(--white); border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s; }
   .skill-tag:hover { background: var(--orange-dim); color: var(--orange); border-color: var(--orange); }
 
+  /* --- PROJECTS (TINDER SWIPE) --- */
   #projects { background: var(--dark2); }
   .swipe-hint-text { font-size: 0.72rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; text-align: center; margin-bottom: 2rem; }
   .swipe-arena { display: flex; flex-direction: column; align-items: center; }
@@ -151,7 +142,7 @@
   .proj-tag { font-size: 0.6rem; padding: 0.2rem 0.6rem; background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(249,115,22,0.2); }
   .proj-metric { margin-top: 0.8rem; font-size: 0.66rem; color: var(--orange); padding-top: 0.8rem; border-top: 1px solid rgba(249,115,22,0.1); }
   .swipe-controls { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
-  .swipe-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: transparent; transition: all 0.2s; font-family: sans-serif; }
+  .swipe-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: transparent; transition: all 0.2s; font-family: sans-serif; cursor: pointer; }
   .swipe-btn.skip { border-color: #555; color: #555; }
   .swipe-btn.skip:hover { border-color: #888; color: #888; background: rgba(99,99,99,0.12); }
   .swipe-btn.heart { border-color: var(--orange); color: var(--orange); }
@@ -164,9 +155,10 @@
   .all-done-icon { font-size: 2.8rem; }
   .all-done-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
   .all-done-sub { font-size: 0.74rem; color: var(--gray); }
-  .all-done-restart { margin-top: 0.5rem; padding: 0.65rem 1.6rem; border: 1px solid var(--orange); color: var(--orange); background: transparent; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s; }
+  .all-done-restart { margin-top: 0.5rem; padding: 0.65rem 1.6rem; border: 1px solid var(--orange); color: var(--orange); background: transparent; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s; cursor: pointer; }
   .all-done-restart:hover { background: var(--orange); color: var(--dark); }
 
+  /* --- EDUCATION --- */
   #education { background: var(--dark); }
   .edu-layout { display: grid; grid-template-columns: 1fr auto; gap: 2rem; max-width: 760px; align-items: stretch; }
   .edu-main { background: var(--dark2); border: 1px solid rgba(249,115,22,0.15); padding: 2.5rem; }
@@ -178,6 +170,7 @@
   .edu-score-n { font-family: 'Syne', sans-serif; font-size: 3.2rem; font-weight: 800; color: var(--orange); line-height: 1; }
   .edu-score-l { font-size: 0.6rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.3rem; }
 
+  /* --- ACHIEVEMENTS --- */
   #achievements { background: var(--dark2); }
   .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .ach-card { background: var(--dark3); border: 1px solid rgba(249,115,22,0.1); padding: 2rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: border-color 0.3s, transform 0.3s; }
@@ -186,11 +179,14 @@
   .ach-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.98rem; margin-bottom: 0.4rem; }
   .ach-desc { font-size: 0.73rem; color: var(--gray); line-height: 1.6; }
 
+  /* --- FOOTER --- */
   footer { background: var(--dark3); border-top: 1px solid rgba(249,115,22,0.1); padding: 3rem 4rem; display: flex; justify-content: space-between; align-items: center; }
   .footer-name { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--orange); }
   .footer-copy { font-size: 0.68rem; color: var(--gray); }
+
   .reveal { opacity: 1; transform: none; }
 
+  /* --- RESPONSIVE --- */
   @media (max-width: 860px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { gap: 1rem; }
@@ -201,7 +197,7 @@
     .ach-grid { grid-template-columns: 1fr; }
     .edu-layout { grid-template-columns: 1fr; }
     .swipe-stack, .all-done { width: 92vw; max-width: 460px; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
   }
 </style>
 <script>
@@ -210,12 +206,13 @@
     if (!el) return;
     window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 72, behavior: 'smooth' });
   }
+
   function triggerSwipe(dir) {
     var cards = Array.from(document.querySelectorAll('.proj-card:not(.gone)'));
     var card = cards[cards.length - 1];
     if (!card) return;
     card.classList.add(dir === 'left' ? 'anim-left' : 'anim-right');
-    card.addEventListener('animationend', function() {
+    card.addEventListener('animationend', function () {
       card.classList.add('gone');
       var remaining = document.querySelectorAll('.proj-card:not(.gone)').length;
       if (remaining === 0) {
@@ -228,68 +225,79 @@
       if (el) el.textContent = Math.min(4 - remaining + 1, 4);
     }, { once: true });
   }
+
   function resetCards() {
-    document.querySelectorAll('.proj-card').forEach(function(c) { c.classList.remove('gone','anim-left','anim-right'); });
+    document.querySelectorAll('.proj-card').forEach(function (c) {
+      c.classList.remove('gone', 'anim-left', 'anim-right');
+      c.style.transform = '';
+    });
     document.getElementById('swipeStack').style.display = '';
     document.getElementById('swipeControls').style.display = '';
     document.getElementById('swipeCounter').style.display = '';
     document.getElementById('allDone').classList.remove('show');
     document.getElementById('cCur').textContent = '1';
   }
-  document.addEventListener('DOMContentLoaded', function() {
+
+  document.addEventListener('DOMContentLoaded', function () {
     var cur = document.getElementById('cursor');
     var ring = document.getElementById('cursorRing');
-    document.addEventListener('mousemove', function(e) {
+
+    document.addEventListener('mousemove', function (e) {
       cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
       ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
     });
-    document.addEventListener('mouseleave', function() {
+    document.addEventListener('mouseleave', function () {
       cur.style.left = '-100px'; cur.style.top = '-100px';
       ring.style.left = '-100px'; ring.style.top = '-100px';
     });
-    window.addEventListener('scroll', function() {
+
+    window.addEventListener('scroll', function () {
       var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
       document.getElementById('scrollLine').style.width = pct + '%';
     });
+
     var sx = 0, dragging = false, dcard = null;
     var stack = document.getElementById('swipeStack');
+
     function getTopCard() {
       var cards = Array.from(document.querySelectorAll('.proj-card:not(.gone)'));
       return cards[cards.length - 1] || null;
     }
-    stack.addEventListener('mousedown', function(e) {
+
+    stack.addEventListener('mousedown', function (e) {
       dcard = getTopCard(); if (!dcard) return;
       dragging = true; sx = e.clientX; dcard.style.transition = 'none';
     });
-    document.addEventListener('mousemove', function(e) {
+    document.addEventListener('mousemove', function (e) {
       if (!dragging || !dcard) return;
       var dx = e.clientX - sx;
       dcard.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx * 0.07) + 'deg)';
       var likeO = dcard.querySelector('.proj-overlay.like'), nopeO = dcard.querySelector('.proj-overlay.nope');
       var likeS = dcard.querySelector('.proj-stamp.like'), nopeS = dcard.querySelector('.proj-stamp.nope');
-      if (dx > 0) { likeO.style.opacity = Math.min(dx/90,0.9); nopeO.style.opacity=0; likeS.style.opacity=Math.min(dx/70,1); nopeS.style.opacity=0; }
-      else { nopeO.style.opacity=Math.min(Math.abs(dx)/90,0.9); likeO.style.opacity=0; nopeS.style.opacity=Math.min(Math.abs(dx)/70,1); likeS.style.opacity=0; }
+      if (dx > 0) { likeO.style.opacity = Math.min(dx / 90, 0.9); nopeO.style.opacity = 0; likeS.style.opacity = Math.min(dx / 70, 1); nopeS.style.opacity = 0; }
+      else { nopeO.style.opacity = Math.min(Math.abs(dx) / 90, 0.9); likeO.style.opacity = 0; nopeS.style.opacity = Math.min(Math.abs(dx) / 70, 1); likeS.style.opacity = 0; }
     });
-    document.addEventListener('mouseup', function(e) {
+    document.addEventListener('mouseup', function (e) {
       if (!dragging || !dcard) return;
       dragging = false;
       var dx = e.clientX - sx;
       dcard.style.transition = '';
-      dcard.querySelectorAll('.proj-overlay,.proj-stamp').forEach(function(el) { el.style.opacity = ''; });
+      dcard.querySelectorAll('.proj-overlay,.proj-stamp').forEach(function (el) { el.style.opacity = ''; });
       if (Math.abs(dx) > 80) triggerSwipe(dx > 0 ? 'right' : 'left');
       else dcard.style.transform = '';
       dcard = null;
     });
-    stack.addEventListener('touchstart', function(e) {
+
+    stack.addEventListener('touchstart', function (e) {
       dcard = getTopCard(); if (!dcard) return;
       dragging = true; sx = e.touches[0].clientX; dcard.style.transition = 'none';
     }, { passive: true });
-    document.addEventListener('touchmove', function(e) {
+    document.addEventListener('touchmove', function (e) {
       if (!dragging || !dcard) return;
       var dx = e.touches[0].clientX - sx;
       dcard.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx * 0.07) + 'deg)';
     }, { passive: true });
-    document.addEventListener('touchend', function(e) {
+    document.addEventListener('touchend', function (e) {
       if (!dragging || !dcard) return;
       dragging = false;
       var dx = e.changedTouches[0].clientX - sx;
@@ -307,6 +315,7 @@
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="scroll-line" id="scrollLine"></div>
 
+<!-- NAV -->
 <nav>
   <div class="nav-logo">Praveen Reddy</div>
   <ul class="nav-links">
@@ -318,40 +327,55 @@
   </ul>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
+
   <div class="hero-left">
     <div class="hero-tag">Available for Opportunities</div>
     <h1 class="hero-name">Praveen<br><span>Reddy</span> Y.</h1>
-    <div class="hero-role">&#xB7; Data Engineer</div>
+    <div class="hero-role">&middot; Data Engineer</div>
     <p class="hero-desc">Building production-grade ETL pipelines, real-time streaming systems, and analytics infrastructure on cloud platforms. 2+ years turning raw data into meaningful insight.</p>
     <div class="hero-cta">
-      <a href="https://linkedin.com/in/praveenreddy-yallayyagari-dataengineer" target="_blank" class="btn-primary">LinkedIn &#x2197;</a>
-      <a href="https://praveen-reddy-yallayyagari-resume-x.vercel.app/" target="_blank" class="btn-download">Take a look at my Resume &#x2197;</a>
+      <a href="https://linkedin.com/in/praveenreddy-yallayyagari-dataengineer" target="_blank" rel="noopener" class="btn-primary">LinkedIn &#x2197;</a>
+      <a href="https://praveen-reddy-yallayyagari-resume-x.vercel.app/" target="_blank" rel="noopener" class="btn-download">Take a look at my Resume &#x2197;</a>
     </div>
   </div>
+
   <div class="hero-right">
     <div class="hero-card">
       <div class="stat-grid">
-        <div><div class="stat-num">2+</div><div class="stat-label">Years Exp.</div></div>
-        <div><div class="stat-num">200K+</div><div class="stat-label">Daily Events</div></div>
-        <div><div class="stat-num">99.99%</div><div class="stat-label">Uptime SLA</div></div>
-        <div><div class="stat-num">20%</div><div class="stat-label">Revenue Uplift</div></div>
+        <div>
+          <div class="stat-num">2+</div>
+          <div class="stat-label">Years Exp.</div>
+        </div>
+        <div>
+          <div class="stat-num">200K+</div>
+          <div class="stat-label">Daily Events</div>
+        </div>
+        <div>
+          <div class="stat-num">99.99%</div>
+          <div class="stat-label">Uptime SLA</div>
+        </div>
+        <div>
+          <div class="stat-num">20%</div>
+          <div class="stat-label">Revenue Uplift</div>
+        </div>
       </div>
       <div class="stat-divider"></div>
       <div class="contact-row">
-        <!-- FIX 2: mailto: link opens Gmail/mail client on click -->
-        <a href="mailto:praveenreddy.yallayyagari@gmail.com" class="contact-item">
-          <span class="contact-icon">&#x2709;</span>
+        <!-- Gmail direct link — opens Gmail compose in new tab -->
+        <a href="https://mail.google.com/mail/?view=cm&to=praveenreddy.yallayyagari@gmail.com" target="_blank" rel="noopener" class="contact-item">
+          <i class="contact-icon">&#x2709;</i>
           praveenreddy.yallayyagari@gmail.com
         </a>
         <a href="tel:+919398242064" class="contact-item">
-          <span class="contact-icon">&#x260E;</span>
+          <i class="contact-icon">&#x260E;</i>
           +91-9398242064
         </a>
         <span class="contact-item">
-          <span class="contact-icon">&#x25CE;</span>
+          <i class="contact-icon">&#x25CE;</i>
           India
         </span>
       </div>
@@ -359,6 +383,7 @@
   </div>
 </section>
 
+<!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-header">
     <div class="section-num">01</div>
@@ -366,6 +391,7 @@
     <div class="section-line"></div>
   </div>
   <div class="exp-timeline">
+
     <div class="exp-entry reveal">
       <div class="exp-dot"></div>
       <div class="exp-header">
@@ -374,18 +400,39 @@
       </div>
       <div class="exp-company-row">
         <span class="exp-company-name">Aiverbalyze Technologies Pvt. Ltd</span>
-        <span class="exp-sep">&#xB7;</span><span>Mumbai (Remote)</span>
-        <span class="exp-sep">&#xB7;</span><span>Jul 2024 &#x2013; Present</span>
+        <span class="exp-sep">&middot;</span>
+        <span>Mumbai (Remote)</span>
+        <span class="exp-sep">&middot;</span>
+        <span>Jul 2024 &ndash; Present</span>
       </div>
       <div class="exp-impacts">
-        <div class="impact-card reveal"><div class="impact-metric">200K+</div><div class="impact-desc">Daily AI call events processed in real-time via Python, GCP Pub/Sub &amp; BigQuery with &lt;5s latency</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">90%</div><div class="impact-desc">Reduction in manual data processing through automated ETL workflows across APIs, databases &amp; file systems</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">99.99%</div><div class="impact-desc">Data availability via automated quality testing &amp; validation frameworks for downstream analytics</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">25+ KPIs</div><div class="impact-desc">Conversational analytics tracking promise-to-pay rates, call duration &amp; collection efficiency metrics</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">20%</div><div class="impact-desc">Revenue growth contribution via dbt staging-intermediate-mart models enabling deep business analysis</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">15 min</div><div class="impact-desc">Incremental pipeline refresh cycle orchestrated with Airflow (Cloud Composer) balancing real-time needs</div></div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">200K+</div>
+          <div class="impact-desc">Daily AI call events processed in real-time via Python, GCP Pub/Sub &amp; BigQuery with &lt;5s latency</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">90%</div>
+          <div class="impact-desc">Reduction in manual data processing through automated ETL workflows across APIs, databases &amp; file systems</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">99.99%</div>
+          <div class="impact-desc">Data availability via automated quality testing &amp; validation frameworks for downstream analytics</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">25+ KPIs</div>
+          <div class="impact-desc">Conversational analytics tracking promise-to-pay rates, call duration &amp; collection efficiency metrics</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">20%</div>
+          <div class="impact-desc">Revenue growth contribution via dbt staging-intermediate-mart models enabling deep business analysis</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">15 min</div>
+          <div class="impact-desc">Incremental pipeline refresh cycle orchestrated with Airflow (Cloud Composer) balancing real-time needs</div>
+        </div>
       </div>
     </div>
+
     <div class="exp-entry reveal">
       <div class="exp-dot"></div>
       <div class="exp-header">
@@ -394,19 +441,35 @@
       </div>
       <div class="exp-company-row">
         <span class="exp-company-name">Aiverbalyze Technologies Pvt. Ltd</span>
-        <span class="exp-sep">&#xB7;</span><span>Mumbai</span>
-        <span class="exp-sep">&#xB7;</span><span>Apr 2024 &#x2013; Jul 2024</span>
+        <span class="exp-sep">&middot;</span>
+        <span>Mumbai</span>
+        <span class="exp-sep">&middot;</span>
+        <span>Apr 2024 &ndash; Jul 2024</span>
       </div>
       <div class="exp-impacts">
-        <div class="impact-card reveal"><div class="impact-metric">99.99%</div><div class="impact-desc">Data availability for reporting &#x2014; batch ingestion pipelines automating daily Pub/Sub to BigQuery imports</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">45%</div><div class="impact-desc">API response latency reduced via parallel S3 uploads with boto3 SDK &amp; optimized MongoDB queries</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">30%</div><div class="impact-desc">Manual reporting effort cut by automating Power BI refresh workflows via REST API integration</div></div>
-        <div class="impact-card reveal"><div class="impact-metric">3 Teams</div><div class="impact-desc">Synchronized data flows between ML outputs, analytics dashboards &amp; backend via API contracts</div></div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">99.99%</div>
+          <div class="impact-desc">Data availability for reporting &mdash; batch ingestion pipelines automating daily Pub/Sub to BigQuery imports</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">45%</div>
+          <div class="impact-desc">API response latency reduced via parallel S3 uploads with boto3 SDK &amp; optimized MongoDB queries</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">30%</div>
+          <div class="impact-desc">Manual reporting effort cut by automating Power BI refresh workflows via REST API integration</div>
+        </div>
+        <div class="impact-card reveal">
+          <div class="impact-metric">3 Teams</div>
+          <div class="impact-desc">Synchronized data flows between ML outputs, analytics dashboards &amp; backend via API contracts</div>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
+<!-- SKILLS -->
 <section id="skills">
   <div class="section-header">
     <div class="section-num">02</div>
@@ -415,40 +478,110 @@
   </div>
   <div class="skills-grid">
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x2328;</span><div class="skill-group-title">Languages</div></div>
-      <div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">SQL</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x2328;</span>
+        <div class="skill-group-title">Languages</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">SQL</span>
+      </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x2699;</span><div class="skill-group-title">Data Engineering</div></div>
-      <div class="skill-tags"><span class="skill-tag">dbt</span><span class="skill-tag">Apache Airflow</span><span class="skill-tag">Apache Kafka</span><span class="skill-tag">PySpark</span><span class="skill-tag">Spark Streaming</span><span class="skill-tag">ETL / ELT Pipelines</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x2699;</span>
+        <div class="skill-group-title">Data Engineering</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">dbt</span>
+        <span class="skill-tag">Apache Airflow</span>
+        <span class="skill-tag">Apache Kafka</span>
+        <span class="skill-tag">PySpark</span>
+        <span class="skill-tag">Spark Streaming</span>
+        <span class="skill-tag">ETL / ELT Pipelines</span>
+      </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x2601;</span><div class="skill-group-title">Cloud Platforms</div></div>
-      <div class="skill-tags"><span class="skill-tag">GCP Pub/Sub</span><span class="skill-tag">BigQuery</span><span class="skill-tag">Cloud Composer</span><span class="skill-tag">AWS S3</span><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS Glue</span><span class="skill-tag">AWS Bedrock</span><span class="skill-tag">Step Functions</span><span class="skill-tag">API Gateway</span><span class="skill-tag">CloudWatch</span><span class="skill-tag">EC2</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x2601;</span>
+        <div class="skill-group-title">Cloud Platforms</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">GCP Pub/Sub</span>
+        <span class="skill-tag">BigQuery</span>
+        <span class="skill-tag">Cloud Composer</span>
+        <span class="skill-tag">AWS S3</span>
+        <span class="skill-tag">AWS Lambda</span>
+        <span class="skill-tag">AWS Glue</span>
+        <span class="skill-tag">AWS Bedrock</span>
+        <span class="skill-tag">Step Functions</span>
+        <span class="skill-tag">API Gateway</span>
+        <span class="skill-tag">CloudWatch</span>
+        <span class="skill-tag">EC2</span>
+      </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x25A3;</span><div class="skill-group-title">Databases</div></div>
-      <div class="skill-tags"><span class="skill-tag">Amazon Redshift</span><span class="skill-tag">MongoDB</span><span class="skill-tag">DynamoDB</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x25A3;</span>
+        <div class="skill-group-title">Databases</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Amazon Redshift</span>
+        <span class="skill-tag">MongoDB</span>
+        <span class="skill-tag">DynamoDB</span>
+      </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x25C8;</span><div class="skill-group-title">APIs &amp; Integration</div></div>
-      <div class="skill-tags"><span class="skill-tag">RESTful APIs</span><span class="skill-tag">Webhooks</span><span class="skill-tag">OAuth2</span><span class="skill-tag">boto3 SDK</span><span class="skill-tag">LangChain</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x25C8;</span>
+        <div class="skill-group-title">APIs &amp; Integration</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">RESTful APIs</span>
+        <span class="skill-tag">Webhooks</span>
+        <span class="skill-tag">OAuth2</span>
+        <span class="skill-tag">boto3 SDK</span>
+        <span class="skill-tag">LangChain</span>
+      </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x25CE;</span><div class="skill-group-title">DevOps &amp; Tooling</div></div>
-      <div class="skill-tags"><span class="skill-tag">CI/CD Pipelines</span><span class="skill-tag">Git</span><span class="skill-tag">Linux</span><span class="skill-tag">Streamlit</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x25CE;</span>
+        <div class="skill-group-title">DevOps &amp; Tooling</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">CI/CD Pipelines</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">Streamlit</span>
+      </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x25A6;</span><div class="skill-group-title">Visualization &amp; BI</div></div>
-      <div class="skill-tags"><span class="skill-tag">Power BI</span><span class="skill-tag">Amazon QuickSight</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x25A6;</span>
+        <div class="skill-group-title">Visualization &amp; BI</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Power BI</span>
+        <span class="skill-tag">Amazon QuickSight</span>
+      </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-header"><span class="skill-group-icon">&#x2726;</span><div class="skill-group-title">AI / ML</div></div>
-      <div class="skill-tags"><span class="skill-tag">LangChain</span><span class="skill-tag">Mistral-7B</span><span class="skill-tag">Claude API</span><span class="skill-tag">Text-to-SQL</span></div>
+      <div class="skill-group-header">
+        <span class="skill-group-icon">&#x2726;</span>
+        <div class="skill-group-title">AI / ML</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">LangChain</span>
+        <span class="skill-tag">Mistral-7B</span>
+        <span class="skill-tag">Claude API</span>
+        <span class="skill-tag">Text-to-SQL</span>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-header">
     <div class="section-num">03</div>
@@ -458,53 +591,88 @@
   <p class="swipe-hint-text">Drag left / right or use buttons to explore</p>
   <div class="swipe-arena">
     <div class="swipe-stack" id="swipeStack">
+
       <div class="proj-card" data-idx="3">
-        <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
-        <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
+        <div class="proj-overlay like"></div>
+        <div class="proj-overlay nope"></div>
+        <div class="proj-stamp like">NICE</div>
+        <div class="proj-stamp nope">NEXT</div>
         <div class="proj-num">04 / 04</div>
         <div class="proj-icon-big">&#x2699;</div>
         <div class="proj-name">AWS ETL Data Pipeline</div>
         <div class="proj-desc">Automated ETL pipeline loading structured datasets from S3 to Amazon Redshift using AWS Glue for transformation. Orchestrated 5 sequential jobs using Step Functions with fail-safe retries, error handling, and notification webhooks for near real-time analytics.</div>
-        <div class="proj-tags"><span class="proj-tag">AWS Glue</span><span class="proj-tag">Redshift</span><span class="proj-tag">S3</span><span class="proj-tag">Step Functions</span></div>
-        <div class="proj-metric">Near real-time analytics &#xB7; Fail-safe retries &#xB7; Notification webhooks</div>
+        <div class="proj-tags">
+          <span class="proj-tag">AWS Glue</span>
+          <span class="proj-tag">Redshift</span>
+          <span class="proj-tag">S3</span>
+          <span class="proj-tag">Step Functions</span>
+        </div>
+        <div class="proj-metric">Near real-time analytics &middot; Fail-safe retries &middot; Notification webhooks</div>
       </div>
+
       <div class="proj-card" data-idx="2">
-        <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
-        <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
+        <div class="proj-overlay like"></div>
+        <div class="proj-overlay nope"></div>
+        <div class="proj-stamp like">NICE</div>
+        <div class="proj-stamp nope">NEXT</div>
         <div class="proj-num">03 / 04</div>
         <div class="proj-icon-big">&#x2601;</div>
         <div class="proj-name">Serverless ChatGPT App on AWS</div>
         <div class="proj-desc">Serverless REST API on AWS Lambda + API Gateway scaling to 10K+ user queries/week. Integrated AWS Bedrock for LLM inference with CloudWatch monitoring, cutting backend costs 30% through on-demand provisioning.</div>
-        <div class="proj-tags"><span class="proj-tag">AWS Lambda</span><span class="proj-tag">API Gateway</span><span class="proj-tag">Bedrock</span><span class="proj-tag">CloudWatch</span></div>
-        <div class="proj-metric">99.9% uptime &#xB7; 30% cost reduction &#xB7; 10K+ weekly queries</div>
+        <div class="proj-tags">
+          <span class="proj-tag">AWS Lambda</span>
+          <span class="proj-tag">API Gateway</span>
+          <span class="proj-tag">Bedrock</span>
+          <span class="proj-tag">CloudWatch</span>
+        </div>
+        <div class="proj-metric">99.9% uptime &middot; 30% cost reduction &middot; 10K+ weekly queries</div>
       </div>
+
       <div class="proj-card" data-idx="1">
-        <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
-        <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
+        <div class="proj-overlay like"></div>
+        <div class="proj-overlay nope"></div>
+        <div class="proj-stamp like">NICE</div>
+        <div class="proj-stamp nope">NEXT</div>
         <div class="proj-num">02 / 04</div>
         <div class="proj-icon-big">&#x1F4AC;</div>
         <div class="proj-name">AI Brainstorming Chatbot</div>
         <div class="proj-desc">Conversational AI with LangChain + Mistral-7B, implementing API endpoints for multi-turn dialogue. Secure token-based auth mitigated 90% of unauthorized access attempts and improved contextual retention by 60%.</div>
-        <div class="proj-tags"><span class="proj-tag">LangChain</span><span class="proj-tag">Mistral-7B</span><span class="proj-tag">OAuth2</span><span class="proj-tag">Python</span></div>
-        <div class="proj-metric">60% better context &#xB7; 90% security improvement</div>
+        <div class="proj-tags">
+          <span class="proj-tag">LangChain</span>
+          <span class="proj-tag">Mistral-7B</span>
+          <span class="proj-tag">OAuth2</span>
+          <span class="proj-tag">Python</span>
+        </div>
+        <div class="proj-metric">60% better context &middot; 90% security improvement</div>
       </div>
+
       <div class="proj-card" data-idx="0">
-        <div class="proj-overlay like"></div><div class="proj-overlay nope"></div>
-        <div class="proj-stamp like">NICE</div><div class="proj-stamp nope">NEXT</div>
+        <div class="proj-overlay like"></div>
+        <div class="proj-overlay nope"></div>
+        <div class="proj-stamp like">NICE</div>
+        <div class="proj-stamp nope">NEXT</div>
         <div class="proj-num">01 / 04</div>
         <div class="proj-icon-big">&#x1F916;</div>
         <div class="proj-name">AI Analytics Chatbot</div>
         <div class="proj-desc">Internal chatbot enabling non-technical stakeholders to query data in natural language, auto-converting questions to SQL against dbt mart tables. Monthly reporting dropped from 4 hours to under 30 seconds via automated PDF generation.</div>
-        <div class="proj-tags"><span class="proj-tag">Claude API</span><span class="proj-tag">LangChain</span><span class="proj-tag">dbt</span><span class="proj-tag">Text-to-SQL</span></div>
-        <div class="proj-metric">95%+ SQL accuracy &#xB7; Reports in &lt;30s &#xB7; Zero SQL needed</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Claude API</span>
+          <span class="proj-tag">LangChain</span>
+          <span class="proj-tag">dbt</span>
+          <span class="proj-tag">Text-to-SQL</span>
+        </div>
+        <div class="proj-metric">95%+ SQL accuracy &middot; Reports in &lt;30s &middot; Zero SQL needed</div>
       </div>
+
     </div>
+
     <div class="all-done" id="allDone">
       <div class="all-done-icon">&#x2728;</div>
       <div class="all-done-title">All 4 projects explored!</div>
       <div class="all-done-sub">Want to go through them again?</div>
       <button class="all-done-restart" onclick="resetCards()">Restart &#x21BA;</button>
     </div>
+
     <div class="swipe-controls" id="swipeControls">
       <button class="swipe-btn skip" onclick="triggerSwipe('left')" title="Skip">&#x2715;</button>
       <span class="swipe-hint-small">swipe or click</span>
@@ -514,6 +682,7 @@
   </div>
 </section>
 
+<!-- EDUCATION -->
 <section id="education">
   <div class="section-header">
     <div class="section-num">04</div>
@@ -523,9 +692,9 @@
   <div class="edu-layout reveal">
     <div class="edu-main">
       <div class="edu-inst">Srinivasa Ramanujan Institute of Technology</div>
-      <div class="edu-deg">B.Tech &#x2014; Computer Science &amp; Engineering</div>
+      <div class="edu-deg">B.Tech &mdash; Computer Science &amp; Engineering</div>
       <div class="edu-spec">Specialization in Data Science</div>
-      <div class="edu-period">Dec 2021 &#x2013; Apr 2024</div>
+      <div class="edu-period">Dec 2021 &ndash; Apr 2024</div>
     </div>
     <div class="edu-score">
       <div class="edu-score-n">8.37</div>
@@ -534,6 +703,7 @@
   </div>
 </section>
 
+<!-- ACHIEVEMENTS -->
 <section id="achievements">
   <div class="section-header">
     <div class="section-num">05</div>
@@ -543,26 +713,39 @@
   <div class="ach-grid">
     <div class="ach-card reveal">
       <div class="ach-ico">&#x1F3C6;</div>
-      <div><div class="ach-title">Top 0.05% &#x2014; TCS CodeVita</div><div class="ach-desc">Ranked in the top 0.05% among 600,000+ competitors in TCS's prestigious global coding competition.</div></div>
+      <div>
+        <div class="ach-title">Top 0.05% &mdash; TCS CodeVita</div>
+        <div class="ach-desc">Ranked in the top 0.05% among 600,000+ competitors in TCS's prestigious global coding competition.</div>
+      </div>
     </div>
     <div class="ach-card reveal">
       <div class="ach-ico">&#x1F4C8;</div>
-      <div><div class="ach-title">20% Revenue Growth Impact</div><div class="ach-desc">Conversational analytics tracking 25+ KPIs including collection efficiency metrics contributed directly to 20% revenue growth.</div></div>
+      <div>
+        <div class="ach-title">20% Revenue Growth Impact</div>
+        <div class="ach-desc">Conversational analytics tracking 25+ KPIs including collection efficiency metrics contributed directly to 20% revenue growth.</div>
+      </div>
     </div>
     <div class="ach-card reveal">
       <div class="ach-ico">&#x25C8;</div>
-      <div><div class="ach-title">Databricks Lakehouse Fundamentals</div><div class="ach-desc">Certified in Databricks Lakehouse platform covering data engineering, analytics, and governance best practices.</div></div>
+      <div>
+        <div class="ach-title">Databricks Lakehouse Fundamentals</div>
+        <div class="ach-desc">Certified in Databricks Lakehouse platform covering data engineering, analytics, and governance best practices.</div>
+      </div>
     </div>
     <div class="ach-card reveal">
       <div class="ach-ico">&#x25CE;</div>
-      <div><div class="ach-title">Google AI Essentials &#x2014; Coursera</div><div class="ach-desc">Completed Google's AI Essentials certification covering AI fundamentals, practical applications, and responsible AI.</div></div>
+      <div>
+        <div class="ach-title">Google AI Essentials &mdash; Coursera</div>
+        <div class="ach-desc">Completed Google's AI Essentials certification covering AI fundamentals, practical applications, and responsible AI.</div>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-name">Praveen Reddy Yallayyagari</div>
-  <div class="footer-copy">&#169; 2026 &#xB7; Data Engineer &#xB7; India</div>
+  <div class="footer-copy">&copy; 2026 &middot; Data Engineer &middot; India</div>
 </footer>
 
 </body>
