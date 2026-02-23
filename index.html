@@ -44,11 +44,11 @@
   .hero-role { font-family: 'Caveat', cursive; font-size: 2rem; color: var(--orange-light); margin-bottom: 1.5rem; animation: fadeSlide 0.7s 0.2s ease both; }
   .hero-desc { font-size: 0.82rem; line-height: 1.8; color: var(--gray); max-width: 480px; margin-bottom: 2.5rem; animation: fadeSlide 0.7s 0.3s ease both; }
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeSlide 0.7s 0.4s ease both; }
-  .btn-primary { padding: 0.9rem 2rem; background: var(--orange); color: var(--dark); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
+  .btn-primary { padding: 0.9rem 2rem; background: var(--orange); color: var(--dark); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;  transition: background 0.2s, transform 0.2s; display: inline-block; }
   .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
   .btn-outline { padding: 0.9rem 2rem; background: transparent; color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(255,255,255,0.15); transition: border-color 0.2s, color 0.2s; display: inline-block; }
   .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
-  .btn-download { padding: 0.9rem 2rem; background: transparent; color: var(--orange); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--orange); cursor: none; transition: background 0.2s, color 0.2s, transform 0.2s; display: inline-block; }
+  .btn-download { padding: 0.9rem 2rem; background: transparent; color: var(--orange); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--orange);  transition: background 0.2s, color 0.2s, transform 0.2s; display: inline-block; }
   .btn-download:hover { background: var(--orange); color: var(--dark); transform: translateY(-2px); }
 
   .hero-right { position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; }
@@ -143,7 +143,7 @@
   .proj-metric { margin-top: 0.8rem; font-size: 0.66rem; color: var(--orange); padding-top: 0.8rem; border-top: 1px solid rgba(249,115,22,0.1); }
 
   .swipe-controls { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
-  .swipe-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: none; background: transparent; transition: all 0.2s; font-family: sans-serif; }
+  .swipe-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;  background: transparent; transition: all 0.2s; font-family: sans-serif; }
   .swipe-btn.skip { border-color: #555; color: #555; }
   .swipe-btn.skip:hover { border-color: #888; color: #888; background: rgba(99,99,99,0.12); }
   .swipe-btn.heart { border-color: var(--orange); color: var(--orange); }
@@ -157,7 +157,7 @@
   .all-done-icon { font-size: 2.8rem; }
   .all-done-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
   .all-done-sub { font-size: 0.74rem; color: var(--gray); }
-  .all-done-restart { margin-top: 0.5rem; padding: 0.65rem 1.6rem; border: 1px solid var(--orange); color: var(--orange); background: transparent; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: none; transition: all 0.2s; }
+  .all-done-restart { margin-top: 0.5rem; padding: 0.65rem 1.6rem; border: 1px solid var(--orange); color: var(--orange); background: transparent; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;  transition: all 0.2s; }
   .all-done-restart:hover { background: var(--orange); color: var(--dark); }
 
   /* EDUCATION */
@@ -207,6 +207,123 @@
     var top = el.getBoundingClientRect().top + window.pageYOffset - 72;
     window.scrollTo({ top: top, behavior: 'smooth' });
   }
+
+  function triggerSwipe(dir) {
+    var cards = Array.from(document.querySelectorAll('.proj-card:not(.gone)'));
+    var card = cards[cards.length - 1];
+    if (!card) return;
+    card.classList.add(dir === 'left' ? 'anim-left' : 'anim-right');
+    card.addEventListener('animationend', function() {
+      card.classList.add('gone');
+      var remaining = document.querySelectorAll('.proj-card:not(.gone)').length;
+      if (remaining === 0) {
+        document.getElementById('swipeStack').style.display = 'none';
+        document.getElementById('swipeControls').style.display = 'none';
+        document.getElementById('swipeCounter').style.display = 'none';
+        document.getElementById('allDone').classList.add('show');
+      }
+      var left = document.querySelectorAll('.proj-card:not(.gone)').length;
+      var el = document.getElementById('cCur');
+      if (el) el.textContent = Math.min(4 - left + 1, 4);
+    }, { once: true });
+  }
+
+  function resetCards() {
+    document.querySelectorAll('.proj-card').forEach(function(c) {
+      c.classList.remove('gone','anim-left','anim-right');
+    });
+    document.getElementById('swipeStack').style.display = '';
+    document.getElementById('swipeControls').style.display = '';
+    document.getElementById('swipeCounter').style.display = '';
+    document.getElementById('allDone').classList.remove('show');
+    document.getElementById('cCur').textContent = '1';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    /* Cursor */
+    var cur = document.getElementById('cursor');
+    var ring = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', function(e) {
+      cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+      ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+    });
+    document.addEventListener('mouseleave', function() {
+      cur.style.left = '-100px'; cur.style.top = '-100px';
+      ring.style.left = '-100px'; ring.style.top = '-100px';
+    });
+
+    /* Scroll progress */
+    window.addEventListener('scroll', function() {
+      var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+      document.getElementById('scrollLine').style.width = pct + '%';
+    });
+
+    /* Drag to swipe */
+    var sx = 0, dragging = false, dcard = null;
+    var stack = document.getElementById('swipeStack');
+
+    function getTopCard() {
+      var cards = Array.from(document.querySelectorAll('.proj-card:not(.gone)'));
+      return cards[cards.length - 1] || null;
+    }
+
+    stack.addEventListener('mousedown', function(e) {
+      dcard = getTopCard(); if (!dcard) return;
+      dragging = true; sx = e.clientX;
+      dcard.style.transition = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!dragging || !dcard) return;
+      var dx = e.clientX - sx;
+      dcard.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx * 0.07) + 'deg)';
+      var likeO = dcard.querySelector('.proj-overlay.like');
+      var nopeO = dcard.querySelector('.proj-overlay.nope');
+      var likeS = dcard.querySelector('.proj-stamp.like');
+      var nopeS = dcard.querySelector('.proj-stamp.nope');
+      if (dx > 0) {
+        likeO.style.opacity = Math.min(dx / 90, 0.9);
+        nopeO.style.opacity = 0;
+        likeS.style.opacity = Math.min(dx / 70, 1);
+        nopeS.style.opacity = 0;
+      } else {
+        nopeO.style.opacity = Math.min(Math.abs(dx) / 90, 0.9);
+        likeO.style.opacity = 0;
+        nopeS.style.opacity = Math.min(Math.abs(dx) / 70, 1);
+        likeS.style.opacity = 0;
+      }
+    });
+    document.addEventListener('mouseup', function(e) {
+      if (!dragging || !dcard) return;
+      dragging = false;
+      var dx = e.clientX - sx;
+      dcard.style.transition = '';
+      dcard.querySelectorAll('.proj-overlay,.proj-stamp').forEach(function(el) { el.style.opacity = ''; });
+      if (Math.abs(dx) > 80) triggerSwipe(dx > 0 ? 'right' : 'left');
+      else dcard.style.transform = '';
+      dcard = null;
+    });
+
+    /* Touch */
+    stack.addEventListener('touchstart', function(e) {
+      dcard = getTopCard(); if (!dcard) return;
+      dragging = true; sx = e.touches[0].clientX;
+      dcard.style.transition = 'none';
+    }, { passive: true });
+    document.addEventListener('touchmove', function(e) {
+      if (!dragging || !dcard) return;
+      var dx = e.touches[0].clientX - sx;
+      dcard.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx * 0.07) + 'deg)';
+    }, { passive: true });
+    document.addEventListener('touchend', function(e) {
+      if (!dragging || !dcard) return;
+      dragging = false;
+      var dx = e.changedTouches[0].clientX - sx;
+      dcard.style.transition = '';
+      if (Math.abs(dx) > 80) triggerSwipe(dx > 0 ? 'right' : 'left');
+      else dcard.style.transform = '';
+      dcard = null;
+    });
+  });
 </script>
 </head>
 <body>
@@ -250,7 +367,7 @@
       </div>
       <div class="stat-divider"></div>
       <div class="contact-row">
-        <span class="contact-item"><span class="contact-icon">&#x2709;</span> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="136361726576767d617677776a3d6a727f7f726a6a727472617a53747e727a7f3d707c7e">[email&#160;protected]</a></span>
+        <span class="contact-item"><span class="contact-icon">&#x2709;</span> praveenreddy.yallayyagari@gmail.com</span>
         <a href="tel:+919398242064" class="contact-item"><span class="contact-icon">&#x260E;</span> +91-9398242064</a>
         <span class="contact-item"><span class="contact-icon">&#x25CE;</span> India</span>
       </div>
@@ -499,109 +616,5 @@
   <div class="footer-copy">&#169; 2026 &#xB7; Data Engineer &#xB7; India</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  /* Cursor */
-  const cur = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
-  let mx = -100, my = -100;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-    ring.style.left = mx + 'px'; ring.style.top = my + 'px';
-  });
-  document.addEventListener('mouseleave', () => {
-    cur.style.left = '-100px'; cur.style.top = '-100px';
-    ring.style.left = '-100px'; ring.style.top = '-100px';
-  });
-
-  /* Scroll progress */
-  window.addEventListener('scroll', () => {
-    document.getElementById('scrollLine').style.width =
-      (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
-  });
-
-  /* Reveal observer */
-
-  /* ── Tinder Swipe ── */
-  const TOTAL = 4;
-
-  function topCard() {
-    const cards = [...document.querySelectorAll('.proj-card:not(.gone)')];
-    return cards[cards.length - 1];
-  }
-
-  function updateCounter() {
-    const left = document.querySelectorAll('.proj-card:not(.gone)').length;
-    document.getElementById('cCur').textContent = Math.min(TOTAL - left + 1, TOTAL);
-  }
-
-  function triggerSwipe(dir) {
-    const card = topCard(); if (!card) return;
-    card.classList.add(dir === 'left' ? 'anim-left' : 'anim-right');
-    card.addEventListener('animationend', () => { card.classList.add('gone'); checkDone(); updateCounter(); }, { once: true });
-  }
-
-  function checkDone() {
-    if (document.querySelectorAll('.proj-card:not(.gone)').length === 0) {
-      document.getElementById('swipeStack').style.display = 'none';
-      document.getElementById('swipeControls').style.display = 'none';
-      document.getElementById('swipeCounter').style.display = 'none';
-      document.getElementById('allDone').classList.add('show');
-    }
-  }
-
-  function resetCards() {
-    document.querySelectorAll('.proj-card').forEach(c => c.classList.remove('gone','anim-left','anim-right'));
-    document.getElementById('swipeStack').style.display = '';
-    document.getElementById('swipeControls').style.display = '';
-    document.getElementById('swipeCounter').style.display = '';
-    document.getElementById('allDone').classList.remove('show');
-    updateCounter();
-  }
-
-  /* Drag */
-  let sx = 0, dragging = false, dcard = null;
-
-  document.getElementById('swipeStack').addEventListener('mousedown', e => {
-    dcard = topCard(); if (!dcard) return;
-    dragging = true; sx = e.clientX;
-    dcard.style.transition = 'none';
-  });
-
-  document.addEventListener('mousemove', e => {
-    if (!dragging || !dcard) return;
-    const dx = e.clientX - sx, rot = dx * 0.07;
-    dcard.style.transform = `translateX(${dx}px) rotate(${rot}deg)`;
-    const likeO = dcard.querySelector('.proj-overlay.like'), nopeO = dcard.querySelector('.proj-overlay.nope');
-    const likeS = dcard.querySelector('.proj-stamp.like'), nopeS = dcard.querySelector('.proj-stamp.nope');
-    if (dx > 0) {
-      likeO.style.opacity = Math.min(dx / 90, 0.9);
-      nopeO.style.opacity = 0;
-      likeS.style.opacity = Math.min(dx / 70, 1);
-      nopeS.style.opacity = 0;
-    } else {
-      nopeO.style.opacity = Math.min(Math.abs(dx) / 90, 0.9);
-      likeO.style.opacity = 0;
-      nopeS.style.opacity = Math.min(Math.abs(dx) / 70, 1);
-      likeS.style.opacity = 0;
-    }
-  });
-
-  document.addEventListener('mouseup', e => {
-    if (!dragging || !dcard) return;
-    dragging = false;
-    const dx = e.clientX - sx;
-    dcard.style.transition = '';
-    dcard.querySelectorAll('.proj-overlay,.proj-stamp').forEach(el => el.style.opacity = '');
-    if (Math.abs(dx) > 80) triggerSwipe(dx > 0 ? 'right' : 'left');
-    else dcard.style.transform = '';
-    dcard = null;
-  });
-
-  /* Touch */
-  const st = document.getElementById('swipeStack');
-  st.addEventListener('touchstart', e => {
-    dcard = topCard(); if (!dcard) return;
-    dragging = true; sx = e.touches[0].clientX;
-    dcard.style.transition = 'none';
-  });
-  document.
+</body>
+</html>
