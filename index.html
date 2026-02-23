@@ -52,7 +52,7 @@
   .btn-download:hover { background: var(--orange); color: var(--dark); transform: translateY(-2px); }
 
   .hero-right { position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; }
-  .hero-card { background: var(--dark2); border: 1px solid rgba(249,115,22,0.15); padding: 2.5rem; width: 340px; animation: fadeSlide 0.8s 0.2s ease both; }
+  .hero-card { background: var(--dark2); border: 1px solid rgba(249,115,22,0.15); padding: 2.5rem; width: 340px; animation: fadeSlide 0.8s 0.2s ease both; backdrop-filter: none; }
   .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .stat-num { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--orange); line-height: 1; }
   .stat-label { font-size: 0.68rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem; }
@@ -367,7 +367,7 @@
       </div>
       <div class="stat-divider"></div>
       <div class="contact-row">
-        <span class="contact-item"><span class="contact-icon">&#x2709;</span> praveenreddy.yallayyagari@gmail.com</span>
+        <a href="mailto:praveenreddy.yallayyagari@gmail.com" class="contact-item"><span class="contact-icon">✉</span> praveenreddy.yallayyagari@gmail.com</a>
         <a href="tel:+919398242064" class="contact-item"><span class="contact-icon">&#x260E;</span> +91-9398242064</a>
         <span class="contact-item"><span class="contact-icon">&#x25CE;</span> India</span>
       </div>
@@ -618,3 +618,4 @@
 
 </body>
 </html>
+
